@@ -1,15 +1,31 @@
 const Tuit = require('../models/Tuit')
 const User = require('../models/User')
 
+const { Op } = require('sequelize') 
+
 module.exports = class TuiterController {
 
     static async showTuits(req, res) {
+
+        let search = ''
+        if(req.query.search) {
+            search = req.query.search
+        }
+
         const tuitsData = await Tuit.findAll({
             include: User,
+            where: {
+                title: {[Op.like]: `%${search}%` }
+            }
         })
-        const tuits = tuitsData.map((result) => result.get({plain: true}));
+        const tuits = tuitsData.map((result) => result.get({plain: true}))
+        let tuitsQty = tuits.length
 
-        res.render('tuits/home', {tuits})
+        if(tuitsQty === 0) {
+            tuitsQty = false
+        }
+
+        res.render('tuits/home', {tuits, search, tuitsQty})
     }
 
     static async dashboard(req, res) {

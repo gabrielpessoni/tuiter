@@ -1,5 +1,35 @@
 <div class="home-header">
-    <h1>Feed</h1>
+    {{#if search}}
+        <h1>Buscando por: <span>{{search}}</span></h1>
+        {{#if tuitsQty}}
+            <p>Foram encontrados <span>{{tuitsQty}}</span> tuit(s)</p>
+        {{else}}
+            <p>Nenhum tuit foi encontrado para o termo <span>{{search}}</span></p>
+        {{/if}}
+    {{else}}
+
+    <h1><span>Feed</span></h1>
+    {{/if}}
+    <form action="/" method="GET">
+        <input type="text" name="search" placeholder="Está procurando por algo?">
+        <input type="submit" class="btn" value="Buscar">
+    </form>
+
+    <div class="order-container">
+        <span>Ordenar por:</span>
+        <form action="/" method="GET">
+            <input type="hidden" name="search" value="{{this.search}}">
+            <input type="hidden" name="order" value="new">
+            <button type="submit"><i class="bi bi-arrow-up"></i></button>
+        </form>
+        <form action="/" method="GET">
+            <input type="hidden" name="search" value="{{this.search}}">
+            <input type="hidden" name="order" value="old">
+            <button type="submit"><i class="bi bi-arrow-down"></i></button>
+        </form>
+
+        <a href="/">Limpar</a>
+    </div>
 </div>
 
 <div class="tuits-container">
