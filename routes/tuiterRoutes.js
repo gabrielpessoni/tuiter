@@ -7,6 +7,11 @@ const checkAuth = require('../helpers/auth').checkAuth
 
 router.get('/add', checkAuth, TuiterController.createTuit)
 router.post('/add', checkAuth, TuiterController.createTuitSave)
+
+router.get('/edit/:id', checkAuth, TuiterController.updateTuit)
+router.post('/edit', checkAuth, TuiterController.updateTuitSave)
+
+
 router.get('/dashboard', checkAuth, TuiterController.dashboard)
 router.post('/remove', checkAuth, TuiterController.removeTuit)
 router.get('/', TuiterController.showTuits)

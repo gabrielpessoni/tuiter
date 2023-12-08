@@ -1,0 +1,15 @@
+<div class="tuit-form-container">
+    <a href="/tuits/dashboard">Voltar</a>
+    <h1>Editando um Tuit</h1>
+
+    <form action="/tuits/edit" method="POST">
+    <input type="hidden" name="id" value="{{tuit.id}}">
+        <div class="form-control">
+            <label for="title">Título</label>
+            <input type="text" name="title" placeholder="O que está pensando hoje?" value="{{tuit.title}}">
+        </div>
+
+        <input type="submit" value="Editar">
+    </form>
+
+</div>

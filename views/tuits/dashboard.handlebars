@@ -10,7 +10,7 @@
         <li>
             {{this.title}}<span class="label"></span>
             <span class="actions">
-                <a href="/" class="btn">Editar</a>
+                <a href="/tuits/edit/{{this.id}}" class="btn">Editar</a>
 
                 <form action="/tuits/remove" method="POST">
                     <input type="hidden" name="id" value="{{this.id}}">
@@ -21,4 +21,8 @@
         </li>
         {{/each}}
     </ul>
+    {{#if emptyTuits}}
+        <p>Ainda não há nenhum Tuit seu, comece a <a href="/tuits/add">criar!</a></p>
+    {{/if}}
+
 </div>

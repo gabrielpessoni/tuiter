@@ -4,7 +4,12 @@ const User = require('../models/User')
 module.exports = class TuiterController {
 
     static async showTuits(req, res) {
-        res.render('tuits/dashboard')
+        const tuitsData = await Tuit.findAll({
+            include: User,
+        })
+        const tuits = tuitsData.map((result) => result.get({plain: true}));
+
+        res.render('tuits/home', {tuits})
     }
 
     static async dashboard(req, res) {
@@ -34,14 +39,18 @@ module.exports = class TuiterController {
 
             // Obtenha os tuítes do usuário
             const tuits = user.Tuits.map((result) => result.dataValues);
+            let emptyTuits = false
 
-            res.render('tuits/dashboard', { tuits });
+            if (tuits.length === 0) {
+                emptyTuits = true
+            }
+
+            res.render('tuits/dashboard', { tuits, emptyTuits });
         } catch (error) {
             console.error('Erro ao buscar usuário:', error);
             res.status(500).send('Erro interno do servidor');
         }
     }
-
 
     static createTuit(req, res) {
         res.render('tuits/create')
@@ -84,6 +93,36 @@ module.exports = class TuiterController {
         } catch (err) {
             console.log('Aconteceu algum erro: ' + err)
         }
+    }
+
+    static async updateTuit(req, res) {
+        const id = req.params.id
+
+        const tuit = await Tuit.findOne({ where: { id: id }, raw: true })
+
+        res.render('tuits/edit', { tuit })
+    }
+
+    static async updateTuitSave(req, res) {
+        const id = req.body.id
+
+        const tuit = {
+            title: req.body.title,
+        }
+
+        try {
+            await Tuit.update(tuit, { where: { id: id } })
+
+            req.flash('message', 'Tuit atualizado com sucesso!')
+
+            req.session.save(() => {
+                res.redirect('/tuits/dashboard')
+            })
+
+        } catch (error) {
+            console.log('Aconteceu algum erro', error)
+        }
+
     }
 
 }
