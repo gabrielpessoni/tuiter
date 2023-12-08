@@ -12,11 +12,20 @@ module.exports = class TuiterController {
             search = req.query.search
         }
 
+        let order = 'DESC'
+
+        if(req.query.order === 'old') {
+            order = 'ASC'
+        } else {
+            order = 'DESC'
+        }
+
         const tuitsData = await Tuit.findAll({
             include: User,
             where: {
                 title: {[Op.like]: `%${search}%` }
-            }
+            },
+            order: [['createdAt', order]], 
         })
         const tuits = tuitsData.map((result) => result.get({plain: true}))
         let tuitsQty = tuits.length
