@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuíter</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="/" id="logo">
+            <img src="/img/tuiter.png" alt="Tuiter">
+        </a>
+
+        <ul>
+            <li><a href="/">Tuits</a></li>
+
+            {{#if session.userId}}
+            <li><a href="/tuits/dashboard">Dashboard</a></li>
+            <li><a href="/logout">Sair</a></li>
+
+            {{else}}
+            <li><a href="/login">Entrar</a></li>
+            <li><a href="/register">Registrar</a></li>
+            {{/if}}
+
+        </ul>
+    </nav>
+    <div class="container">
+        <!--Mensagens-->
+        {{#if messages.message}}
+        <div class="message">
+            {{messages.message}}
+        </div>
+        {{/if}}
+        <!--Mensagens-->
+
+        {{{body}}}
+    </div>
+    <footer>
+        <p><span>Tuíter</span> &copy; 2023</p>
+    </footer>
+</body>
+
+</html>
